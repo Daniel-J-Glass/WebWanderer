@@ -10,6 +10,8 @@ To run this application, you will need Python 3 installed on your system. You ca
 pip install -r requirements.txt
 ```
 
+Also, you need to fill out the .env with your Dream Booth and OpenAI API keys.
+
 ## Usage
 
 To run the application, you can use the following command:
