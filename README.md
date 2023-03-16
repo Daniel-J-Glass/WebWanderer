@@ -25,7 +25,7 @@ This will start the Flask development server, and you can access the website by 
 The website has two views:
 
 - `/start`: This is the starting screen of the website. It displays a button to start traversing websites.
-- `/next_page`: This view generates a new page based on the information from the previous page. It uses an AI to generate the content and layout of the page.
+- `/next_page`: This view generates a new page based on the information from the previous page. It uses ChatGPT and Stable Diffusion to generate the content and layout of the page.
 
 ## Screenshots
 
