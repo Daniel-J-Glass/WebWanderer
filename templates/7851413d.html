@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Virtual Art Gallery</title>
+<style>
+        body {
+            background-color: #F2F2F2;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 30px;
+            font-family: Arial, sans-serif;
+            color: #666666;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-gap: 20px;
+            padding: 20px;
+        }
+        .artwork {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .artwork:hover {
+            transform: scale(1.05);
+        }
+        .artwork img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .artwork .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+        }
+        .artwork .overlay:hover {
+            opacity: 1;
+        }
+        .artwork h2 {
+            font-family: Arial, sans-serif;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+<h1>Virtual Art Gallery</h1>
+<div class="gallery">
+<div class="artwork">
+<img alt="Abstract painting inspired by the word luter" href="/next_page?parent_purpose=%3A+This+is+a+virtual+art+gallery+showcasing+abstract+and+minimalist+paintings+inspired+by+the+words%3A+luter,+mingiest,+sankhya.&amp;parent_uuid=7851413d&amp;button_context=%0D%0AClicked+button%3A+Abstract+painting+inspired+by+the+word+luter" src="static/images/ee8578b9.png"/>
+<div class="overlay">
+<h2>Luter</h2>
+</div>
+</div>
+<div class="artwork">
+<img alt="Minimalist painting inspired by the word mingiest" href="/next_page?parent_purpose=%3A+This+is+a+virtual+art+gallery+showcasing+abstract+and+minimalist+paintings+inspired+by+the+words%3A+luter,+mingiest,+sankhya.&amp;parent_uuid=7851413d&amp;button_context=%0D%0AClicked+button%3A+Minimalist+painting+inspired+by+the+word+mingiest" src="static/images/f3adf6d3.png"/>
+<div class="overlay">
+<h2>Mingiest</h2>
+</div>
+</div>
+<div class="artwork">
+<img alt="Abstract painting inspired by the word sankhya" href="/next_page?parent_purpose=%3A+This+is+a+virtual+art+gallery+showcasing+abstract+and+minimalist+paintings+inspired+by+the+words%3A+luter,+mingiest,+sankhya.&amp;parent_uuid=7851413d&amp;button_context=%0D%0AClicked+button%3A+Abstract+painting+inspired+by+the+word+sankhya" src="static/images/c7fb6d66.png"/>
+<div class="overlay">
+<h2>Sankhya</h2>
+</div>
+</div>
+</div>
+</body>
+</html>

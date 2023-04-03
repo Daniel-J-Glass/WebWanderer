@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Random Image Gallery</title>
+<style>
+      body {
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      .image-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 50px;
+      }
+
+      .image-container img {
+        width: 300px;
+        height: 300px;
+        margin: 20px;
+        border: 10px solid #fff;
+        box-shadow: 0px 0px 20px #333;
+        cursor: pointer;
+      }
+
+      .image-container img:hover {
+        border: 10px solid #333;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+
+      .modal-content {
+        margin: 10% auto;
+        padding: 20px;
+        width: 80%;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px #333;
+        position: relative;
+      }
+
+      .close {
+        color: #fff;
+        font-size: 50px;
+        font-weight: bold;
+        position: absolute;
+        top: 5px;
+        right: 15px;
+        cursor: pointer;
+      }
+
+      .close:hover {
+        color: #ccc;
+      }
+
+      .modal-image {
+        width: 100%;
+        height: auto;
+      }
+
+      .modal-description {
+        color: #333;
+        font-size: 20px;
+        margin-top: 20px;
+        text-align: justify;
+      }
+    </style>
+</head>
+<body>
+<h1>Random Image Gallery</h1>
+<div class="image-container">
+<img alt="A surreal landscape with a floating island" href="/next_page?parent_purpose=%3A+This+is+a+website+that+contains+a+randomly+generated+gallery+of+images+and+descriptions,+inspired+by+nonepochal,+indissipable,+campagnol.&amp;parent_uuid=e3004130&amp;button_context=%0D%0AClicked+button%3A+A+surreal+landscape+with+a+floating+island" onclick="openModal('static/images/f08c8bac.png', 'A surreal landscape with a floating island')" src="static/images/f08c8bac.png"/>
+<img alt="A futuristic cityscape with flying cars" href="/next_page?parent_purpose=%3A+This+is+a+website+that+contains+a+randomly+generated+gallery+of+images+and+descriptions,+inspired+by+nonepochal,+indissipable,+campagnol.&amp;parent_uuid=e3004130&amp;button_context=%0D%0AClicked+button%3A+A+futuristic+cityscape+with+flying+cars" onclick="openModal('static/images/79e30d1b.png', 'A futuristic cityscape with flying cars')" src="static/images/79e30d1b.png"/>
+<img alt="A dark and eerie forest with glowing mushrooms" href="/next_page?parent_purpose=%3A+This+is+a+website+that+contains+a+randomly+generated+gallery+of+images+and+descriptions,+inspired+by+nonepochal,+indissipable,+campagnol.&amp;parent_uuid=e3004130&amp;button_context=%0D%0AClicked+button%3A+A+dark+and+eerie+forest+with+glowing+mushrooms" onclick="openModal('static/images/985e83c9.png', 'A dark and eerie forest with glowing mushrooms')" src="static/images/985e83c9.png"/>
+<img alt="A futuristic space station orbiting a planet" href="/next_page?parent_purpose=%3A+This+is+a+website+that+contains+a+randomly+generated+gallery+of+images+and+descriptions,+inspired+by+nonepochal,+indissipable,+campagnol.&amp;parent_uuid=e3004130&amp;button_context=%0D%0AClicked+button%3A+A+futuristic+space+station+orbiting+a+planet" onclick="openModal('static/images/7a6f7077.png', 'A futuristic space station orbiting a planet')" src="static/images/7a6f7077.png"/>
+<img alt="A colorful underwater scene with corals and fish" href="/next_page?parent_purpose=%3A+This+is+a+website+that+contains+a+randomly+generated+gallery+of+images+and+descriptions,+inspired+by+nonepochal,+indissipable,+campagnol.&amp;parent_uuid=e3004130&amp;button_context=%0D%0AClicked+button%3A+A+colorful+underwater+scene+with+corals+and+fish" onclick="openModal('static/images/26d1444c.png', 'A colorful underwater scene with corals and fish')" src="static/images/26d1444c.png"/>
+<img alt="A surreal landscape with giant mushrooms and a pink sky" href="/next_page?parent_purpose=%3A+This+is+a+website+that+contains+a+randomly+generated+gallery+of+images+and+descriptions,+inspired+by+nonepochal,+indissipable,+campagnol.&amp;parent_uuid=e3004130&amp;button_context=%0D%0AClicked+button%3A+A+surreal+landscape+with+giant+mushrooms+and+a+pink+sky" onclick="openModal('static/images/b1e02254.png', 'A surreal landscape with giant mushrooms and a pink sky')" src="static/images/b1e02254.png"/>
+</div>
+<div class="modal" id="modal">
+<span class="close" onclick="closeModal()">×</span>
+<img alt="" class="modal-image" href="/next_page?parent_purpose=%3A+This+is+a+website+that+contains+a+randomly+generated+gallery+of+images+and+descriptions,+inspired+by+nonepochal,+indissipable,+campagnol.&amp;parent_uuid=e3004130&amp;button_context=%0D%0AClicked+button%3A+" id="modal-image" src=""/>
+<p class="modal-description" id="modal-description"></p>
+</div>
+<script>
+      function openModal(imageSrc, description) {
+        var modal = document.getElementById("modal");
+        var modalImage = document.getElementById("modal-image");
+        var modalDescription = document.getElementById("modal-description");
+        modal.style.display = "block";
+        modalImage.src = imageSrc;
+        modalDescription.innerHTML = description;
+      }
+
+      function closeModal() {
+        var modal = document.getElementById("modal");
+        modal.style.display = "none";
+      }
+    </script>
+</body>
+</html>

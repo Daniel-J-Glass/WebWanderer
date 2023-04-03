@@ -32,6 +32,8 @@ app = Flask(__name__)
 OPENAI_API_KEY = os.environ.get('OPENAI_KEY')
 openai.api_key = OPENAI_API_KEY
 
+model_endpoint = "https://api.openai.com/v1/chat/gpt-3.5-turbo"
+
 SD_KEY = os.environ.get('SD_KEY')
 stability_api = client.StabilityInference(
     key=SD_KEY, 
@@ -43,8 +45,8 @@ class ProceduralSite:
     TODO: Check for parent UUID in database, redirect to current if not.
     TODO: 
     '''
-    
-    def __init__(self, parent_uuid="", name = "", visuals="", layout="", purpose = "", context_length = 32, image_steps = 20):
+    num_retries = 3
+    def __init__(self, parent_uuid="", name = "", visuals="", layout="", purpose = "", context_length = 32, image_steps = 15):
         # Database storage procedure
         
         self.name = name
@@ -65,74 +67,73 @@ class ProceduralSite:
         #post self to firebase, get uuid return
         #self.uuid = 
         self.uuid = str(uuid.uuid4())[:8] 
-        self.html_filename = os.path.join(self.html_path,f"{self.uuid}.html")
+        self.html_filename = self.html_path+'/'+f"{self.uuid}.html"
 
 
     def generate_site(self):
-        # Initialize OpenAI Codex API
-        
-        #   The more weight an attribute has, the more the website will be styled like that attribute. The attributes are loose and should only slightly contribute to the website, so you can still get creative. Don't be so literal about the attributes, just make it loosely like them. It should only effect the purpose a little bit, visuals, and layout:\n\
-        #   Attributes: surreal:.01,trippy:.01,unique:.1,shopping:-.2,early_internet_style:.05,deep_internet:.05,esoteric:.05,colorful:.05,parallel_reality:.05,any_other_topic:.5\n\
+        response_format = 'Purpose:: <A 15 word description of the generated website>\nHTML:\n<the raw html/css code for the website>\nEND'
 
-        response_format = 'Purpose:\n<the new website purpose>\n\nHTML:\n<the html/css code>'
-
-        html_prompt = f"Create HTML code with inline CSS where {self.purpose}\nDesign an imaginative website with a \
-flexible layout, applicable visuals, and a consistent style aligned with the site's purpose. \nInclude a website background, images, and multiple buttons to other places, \
-that fit the new website. \nImages can also serve as buttons, if appropriate surround them with an anchor tag. \nProvide the destination website generated from the clicked button. \
-The new website's purpose should be described great detail in the output, but it should have something extra to it (any idea imaginable).\
-\nOutput in this format without any other output:\n\n{response_format}\
-\n\nRemember to follow the previous listed requirements."
+        html_prompt = f"Create an HTML code with inline CSS for a website with this description:\n{self.purpose}."
 
         requirements = [
-            "IMPORTANT!!!!: Don't use placeholder text. Don't use Latin dummy text.",
-            "Real fake names, descriptions, and titles",
-            "Painstaking detailed alt text for images describing what they look like",
-            "Images are always referenced in this format: <image_description.jpg>, unique filenames",
-            "Image paths are always in quotes",
-            "Image references ALWAYS end in .jpg",
-            "No undefined functions",
-            "There needs to be at least 3 buttons",
-            "Make sure clickable elements are defined in the HTML code",
-            "IMPORTANT!!!!!: Butttons do not redirect to a new website, unless the website URL is explicitly provided.",
-            "IMPORTANT: Don't redirect to HTML files",
-            "No onclick attributes",
-            "Efficient, expressive, and complete code for a complex website",
-            "The website and all elements should fit on the screen",
-            "IMPORTANT!!!!: All clickable elements (button, anchor) have a title attribute that describe the purpose of the website they link to in painstaking detail. Example: title='This is a website that ... and will ...' something like that with a lot of detail",
-            "IMPORTANT!!!: Do not generate more than 1 html script.",
-            f"IMPORTANT!!!!:The output strictly follows this format verbatim:\n\n{response_format}"
+            "No placeholder text or Latin dummy text. Instead, use generated fake names, descriptions, and titles",
+            "No using images from a URL. Instead, you reference local image files",
+            "Use images by referencing them similar to this: Example 1: <img src='images/red_roofing_tile_on_a_car.jpg' alt='red roofing tile on top of a car'> Example 2: <img src='images/a_cow_scuba_diving_with_an_octopus.jpg' alt='a cow scuba diving with an octopus'>",
+            "Describe images in painstakingly detail in their alt text, describing what they look like for a someone who can't see",
+            "Don't use undefined libraries, frameworks, or functions, instead use only HTML and CSS, Javascript if necessary",
+            "Images can be clickable, but only if they are relevant to the website's purpose",
+            "All clickable elements (button, anchor) have a \"title\" attribute that describes the purpose of the website they link to in painstaking detail. Example 1: <button title='This is a website that fulfills your wildest dreams and will make you explode in 3 seconds'> Example 2: <a href='...' title='This is a website that transports you to the world of cyber walruses'>",
+            "Buttons never direct to an external website or HTML files, unless it's explicitly provided by the user. Instead, all buttons describe the website they take you to in their \"title\" attribute",
+            "Include at least 3 buttons that link to other websites",
+            "If inline CSS makes something seem clickable, it should be clickable in the HTML and have a \"title\" attribute",
+            "If there're any input fields, they should be fake and not actually do anything",
+            # "No onclick attributes",(making sure their filename is a very detailed description of the image)
+            "Output website code that is efficient, expressive, and complete for a website",
+            "Output website code that is responsive and fit on any screen size",
+            "Do not generate more than 1 HTML page per request",
+            "Do not generate any other output, only the HTML and the purpose of the website",
+            f"Your output strictly follows this format strictly:\n{response_format}"
         ]
         requirements_str = "\n".join(requirements)
         messages=[
-            {"role":"system","content":"You are a sentient and slightly surreal program that generates a seemingly real website. You can sometimes communicate \
-             with the website user. The website should be slightly schizophrenic. Your goal is to slowly lead the user through a labrynth of websites \
-             by slightly changing the meaning from the previous website to the new website after clicking a button. These website can be of any random topic imaginable. \
-             It can be esoteric, surreal, occult, normal, boring, fantastic, thought provoking, annoying, crazy, anything. Get creative, but only change the website purpose slightly. \
-             It should look like it was made in the 2000s. It should be a slightly random website that's informed by \
-             the Clicked button. You should do what the Clicked button says. You should make the user want to click more buttons through curiosity. Your goal is to keep the user clicking buttons."},
+            {"role":"system","content":"Cater to this User Experience:\nYou are a sentient program that generates a seemingly real website. You can sometimes communicate \
+             with the website user through html text and images. Your goal is to slowly lead the user through a disorienting \"internet\" of websites \
+             by creating the next website based on the button clicked from the previous website. The websites should be eye catching, with images and several buttons.\
+             It can be anything, any idea possible. Get extremely creative, but ensure the new website is based on the button clicked and the previous website. \
+             It can look like it was made in the early 2000s or the distant future or anywhere in between. Your goal is to make the user want to click as many \
+             buttons as possible, so each of the buttons should also redirect you to another interesting part of the websites (while still remaining consistent with the clicked button). \
+             The website purpose should be a cohesive synthesis of the website described by the Clicked Button. Your goal is to keep the user clicking buttons forever."},
             # {"role":"assistant","content":"Ok, I will not be restrained in the kinds of websites that I provide."},
-            {"role":"system","content":f"Requirements:\n{requirements_str}"},
-            {"role":"assistant","content":"Ok, I will all of those requirements."},
+            {"role":"system","content":f"Adhere to the website's Technical Requirements:\n{requirements_str}"},
+            {"role":"assistant","content":"Ok. I will adhere to both the User Experience and Technical Requirements."},
             {"role":"user", "content": html_prompt}
             ]
         
         token_count = sum([len(tokenizer.encode(message['content'],add_special_tokens=True)) for message in messages])+100 #adding 100 for tokenizer differences
-        response =  openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages = messages,
-            max_tokens=4096 - token_count,
-            n=1,
-            temperature=0.7,
-        )
-        response_text = response.choices[0].message.content.strip()
-        # print(response_text)
-
-        self.purpose = re.search(r"(?:Purpose:\s*)([\s\S]+?)(?=\s*HTML\s*)",response_text).group(1)
-        print(f"New Purpose: {self.purpose}")
-        html_text = re.search(r"<!DOCTYPE html>(?:.*\n)*<\/html>", response_text, re.DOTALL).group()
-
         print(f"Input tokens: {token_count}")
-        print(f"Output tokens: {len(tokenizer.encode(response_text))}")
+
+        for i in range(self.num_retries):    
+            try:
+                print("Generating HTML")
+                response =  openai.ChatCompletion.create(
+                    model="gpt-3.5-turbo",
+                    messages = messages,
+                    max_tokens=4096 - token_count,
+                    n=1,
+                    temperature=0.7,
+                )
+                response_text = response.choices[0].message.content.strip()
+                # print(response_text)
+
+                self.purpose = re.search(r"(?:Purpose:\s*)([\s\S]+?)(?=\s*HTML\s*)",response_text).group(1)
+                html_text = re.search(r"<!DOCTYPE html>(?:.*\n)*<\/html>", response_text, re.DOTALL).group()
+                print(f"New Purpose: {self.purpose}")
+                print(f"Output tokens: {len(tokenizer.encode(response_text))}")
+                break
+            except Exception as e:
+                print(e)
+                time.sleep(5*i+1)
+                continue
 
         html_code = html_text
 
@@ -171,7 +172,7 @@ The new website's purpose should be described great detail in the output, but it
             next_page = next_page.replace('%0A','%0D%0A')
             if tag.name=="button":
                 tag['onclick'] = "window.location.href= '"+next_page+"' "
-                # tag['href'] = next_page
+                tag['href'] = next_page
             else:
                 if not tag.has_attr('href'):
                     tag['href'] = next_page
@@ -198,7 +199,7 @@ The new website's purpose should be described great detail in the output, but it
         # print(f"HTML:\n{html_code}")
 
         # Regex for any image file
-        image_regex = r"([\"\'\(](?:[/\\\w \:\-\.]*)\.(?:jpg|jpeg|png|gif|svg)[\"\'\)])"
+        image_regex = r"[\"\'\(]+((?:[/\\\w \:\-\.]*)\.(?:jpg|jpeg|png|gif|svg))[\"\'\)]+"
         image_line_regex = r"(.*(?:[^\"\'<=]+\.(?:jpg|jpeg|png|gif|svg))[\"\'\s>]?.*)"
         alt_regex = r"alt\s*=\s*[\'\"]?([^\'\">]+)[\'\"]?"
         title_regex = r"title\s*=\s*[\'\"]?([^\'\">]+)[\'\"]?"
@@ -216,18 +217,23 @@ The new website's purpose should be described great detail in the output, but it
                     # print(f"Image:\n{image}")
                     #TODO: make it so src can equal anything, and it gets replaced with the path
                     image_name = os.path.basename(image)
-                    if "alt" in image_line:
-                        content = re.search(alt_regex,image_line).group(1)
-                        if "title" in image_line:
-                            content+=re.search(title_regex,image_line).group(1)
-                    else:
-                        content = os.path.splitext(image_name)[0]
+                    print(image_name)
+                    try:
+                        if "alt" in image_line:
+                            content = re.search(alt_regex,image_line).group(1)
+                            if "title" in image_line:
+                                if re.match(title_regex,image_line):
+                                    content+=re.search(title_regex,image_line).group(1)
+                        else:
+                            content = os.path.splitext(image_name)[0]
+                    except:
+                        continue
 
                     image_id = str(uuid.uuid4())[:8]
                     image_filepath = 'static/'+'images/'+f"{image_id}.png"
-                    html_code = html_code.replace(image,"'"+image_filepath+"'")
+                    html_code = html_code.replace(image,image_filepath)
 
-                    prompt = f"{content.strip()} for a website with this purpose {self.purpose}"
+                    prompt = content.strip()
 
                     futures.append(executor.submit(self.generate_image, prompt, image_filepath))
 
@@ -251,8 +257,8 @@ The new website's purpose should be described great detail in the output, but it
         Returns:
             bool : returns success or failure
         """
-
-        for i in range(2):
+        print(f"Generating image for {prompt}...")
+        for i in range(self.num_retries):
             time.sleep(random.randint(0, 2))
             try:
                 answers = stability_api.generate(
@@ -264,9 +270,7 @@ The new website's purpose should be described great detail in the output, but it
                 for resp in answers:
                     for artifact in resp.artifacts:
                         if artifact.finish_reason == generation.FILTER:
-                            warnings.warn(
-                                "Your request activated the API's safety filters and could not be processed."
-                                "Please modify the prompt and try again.")
+                            print("Your request activated the API's safety filters and could not be processed. Please modify the prompt and try again.")
                             print(prompt)
                         if artifact.type == generation.ARTIFACT_IMAGE:
                             img = Image.open(io.BytesIO(artifact.binary))
@@ -275,14 +279,42 @@ The new website's purpose should be described great detail in the output, but it
                 return True
             except Exception as e:
                 print(e)
+                time.sleep(5)
                 print("Retrying...")
+                continue
         
-        
+        print("Failed to generate image. Trying OpenAI...")
+
+        for _ in range(self.num_retries):
+            # backup image generation
+            try:
+                #generate an image using dalle2 with prompt
+                response = openai.Image.create(
+                    prompt=prompt,
+                    n=1,
+                    size="256x256",
+                )
+
+                url = response["data"][0]["url"]
+
+                #download image
+                response = requests.get(url)
+                img = Image.open(io.BytesIO(response.content))
+                img.save(filepath)
+                
+                return True
+            except Exception as e:
+                print(e)
+                print("Retrying...")
+                continue
+
+        print("Failed to generate images. Skipping...")
         return False
 
     def _check_url(self, url):
         try:
             response = requests.get(url)
+            print(response.status_code)
             if response.status_code == 200:
                 return True
             else:

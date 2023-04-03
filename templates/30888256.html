@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Procedurally Generated Words</title>
+<style>
+		body {
+			background-color: #F5F5F5;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+		}
+
+		h1 {
+			color: #2E2E2E;
+			margin-top: 50px;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+			padding: 20px;
+			background-color: #FFFFFF;
+			box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+			border-radius: 10px;
+			max-width: 800px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.input-section {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		.input-section label {
+			color: #2E2E2E;
+			margin-right: 10px;
+		}
+
+		.input-section input[type="text"] {
+			padding: 5px;
+			border-radius: 5px;
+			border: 1px solid #2E2E2E;
+			margin-right: 10px;
+			width: 200px;
+		}
+
+		.input-section button {
+			padding: 5px 10px;
+			background-color: #2E2E2E;
+			color: #FFFFFF;
+			border-radius: 5px;
+			border: none;
+			cursor: pointer;
+		}
+
+		.word-section {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		.word-section h2 {
+			color: #2E2E2E;
+			margin-right: 10px;
+		}
+
+		.word-section p {
+			color: #2E2E2E;
+			flex: 1;
+			margin: 0;
+			text-align: left;
+		}
+
+		.button-section {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.button-section button {
+			padding: 5px 10px;
+			background-color: #2E2E2E;
+			color: #FFFFFF;
+			border-radius: 5px;
+			border: none;
+			cursor: pointer;
+			margin-right: 10px;
+		}
+
+		.button-section button:last-child {
+			margin-right: 0;
+		}
+
+		.button-section button:hover {
+			background-color: #4F4F4F;
+		}
+
+		.footer {
+			color: #2E2E2E;
+			margin-top: 20px;
+		}
+
+		.footer a {
+			color: #2E2E2E;
+			text-decoration: none;
+		}
+
+		.footer a:hover {
+			text-decoration: underline;
+		}
+	</style>
+</head>
+<body>
+<h1>Procedurally Generated Words</h1>
+<div class="container">
+<div class="input-section">
+<label for="word-input">Enter a word:</label>
+<input href="/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+" id="word-input" placeholder="e.g. strippler" type="text"/>
+<button href="/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Generate" id="generate-btn" onclick="window.location.href= '/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Generate' ">Generate</button>
+</div>
+<div class="word-section">
+<h2>Generated Word:</h2>
+<p id="generated-word"></p>
+</div>
+<div class="button-section">
+<button href="/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Generate+a+new+word+based+on+the+same+input" id="new-word-btn" onclick="window.location.href= '/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Generate+a+new+word+based+on+the+same+input' " title="Generate a new word based on the same input">New Word</button>
+<button href="/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Clear+the+input+and+generated+word" id="reset-btn" onclick="window.location.href= '/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Clear+the+input+and+generated+word' " title="Clear the input and generated word">Reset</button>
+<button href="/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Generate+a+random+word" id="random-word-btn" onclick="window.location.href= '/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Generate+a+random+word' " title="Generate a random word">Random Word</button>
+</div>
+</div>
+<div class="footer">
+<p>Made by <a href="/loading?parent_purpose=%3A+This+is+a+website+that+generates+procedurally+generated+words+and+their+definitions+based+on+user+input.&amp;parent_uuid=30888256&amp;button_context=%0D%0AClicked+button%3A+Username">Username</a></p>
+</div>
+<script>
+		const wordInput = document.getElementById("word-input");
+		const generateBtn = document.getElementById("generate-btn");
+		const generatedWord = document.getElementById("generated-word");
+		const newWordBtn = document.getElementById("new-word-btn");
+		const resetBtn = document.getElementById("reset-btn");
+		const randomWordBtn = document.getElementById("random-word-btn");
+
+		// Function to generate a word and definition based on user input
+		function generateWord() {
+			const input = wordInput.value.toLowerCase();
+
+			// Generate a fake definition using the input
+			const definition = `A rare and unique creature from the deep sea, known for its ${input}-like appearance and ${input}-like behavior.`;
+
+			// Capitalize the first letter of the input
+			const capitalizedInput = input.charAt(0).toUpperCase() + input.slice(1);
+
+			// Set the generated word and definition
+			generatedWord.innerHTML = `${capitalizedInput}: ${definition}`;
+		}
+
+		// Event listener for the generate button
+		generateBtn.addEventListener("click", generateWord);
+
+		// Event listener for the new word button
+		newWordBtn.addEventListener("click", generateWord);
+
+		// Event listener for the reset button
+		resetBtn.addEventListener("click", () => {
+			wordInput.value = "";
+			generatedWord.innerHTML = "";
+		});
+
+		// Function to generate a random word and definition
+		function generateRandomWord() {
+			// Array of possible word prefixes and suffixes
+			const prefixes = ["strip", "cort", "isur"];
+			const suffixes = ["pler", "a", "idae"];
+
+			// Choose a random prefix and suffix
+			const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+			const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+
+			// Generate a fake definition using the prefix and suffix
+			const definition = `A unique and mysterious creature, known for its ${randomPrefix}${randomSuffix} appearance and ${randomPrefix}${randomSuffix} behavior.`;
+
+			// Set the generated word and definition
+			generatedWord.innerHTML = `${randomPrefix}${randomSuffix}: ${definition}`;
+		}
+
+		// Event listener for the random word button
+		randomWordBtn.addEventListener("click", generateRandomWord);
+	</script>
+</body>
+</html>

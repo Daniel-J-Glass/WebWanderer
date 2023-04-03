@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask
-from views.start import start,next_page
+from views.start import start,next_page,generated_site
 
 app = Flask(__name__)
 app.template_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
@@ -19,6 +19,7 @@ app.static_url_path=f"/{os.path.join(os.path.dirname(os.path.abspath(__file__)),
 # Use the start() function from start.py to define the '/' route
 app.route('/')(start)
 app.route('/next_page')(next_page)
+app.route('/generated_site')(generated_site)
 
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))

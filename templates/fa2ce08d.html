@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Measurements Website</title>
+<style>
+		body {
+			background-color: #ECECEC;
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+			font-size: 40px;
+		}
+		form {
+			margin-top: 50px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		label {
+			font-size: 20px;
+			font-weight: bold;
+			margin-top: 20px;
+		}
+		input[type="text"] {
+			font-size: 16px;
+			padding: 10px;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0 0 5px rgba(0,0,0,0.2);
+			width: 300px;
+			margin-top: 10px;
+			margin-bottom: 20px;
+			text-align: center;
+			outline: none;
+		}
+		button {
+			background-color: #FF9D00;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			font-size: 20px;
+			font-weight: bold;
+			padding: 10px 40px;
+			box-shadow: 0 0 5px rgba(0,0,0,0.2);
+			cursor: pointer;
+			transition: all 0.3s ease;
+		}
+		button:hover {
+			background-color: #FFB933;
+			transform: scale(1.05);
+		}
+		.result {
+			font-size: 24px;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 50px;
+		}
+		img {
+			max-width: 100%;
+			height: auto;
+			display: block;
+			margin: 0 auto;
+		}
+	</style>
+</head>
+<body>
+<h1>Measurements Website</h1>
+<form>
+<label for="object">Enter the name of the object you want to measure:</label>
+<input autofocus="" href="/loading?parent_purpose=%3A+This+is+a+website+that+allows+you+to+measure+the+imputedly+unsieged+objects&amp;parent_uuid=fa2ce08d&amp;button_context=%0D%0AClicked+button%3A+" id="object" placeholder="e.g. Aardvark, Watermelon, etc." type="text"/>
+<button href="/loading?parent_purpose=%3A+This+is+a+website+that+allows+you+to+measure+the+imputedly+unsieged+objects&amp;parent_uuid=fa2ce08d&amp;button_context=%0D%0AClicked+button%3A+Measure" onclick="window.location.href= '/loading?parent_purpose=%3A+This+is+a+website+that+allows+you+to+measure+the+imputedly+unsieged+objects&amp;parent_uuid=fa2ce08d&amp;button_context=%0D%0AClicked+button%3A+Measure' ">Measure</button>
+</form>
+<div class="result">
+<!-- Measurement result will be displayed here -->
+</div>
+<img alt="Measuring Tape" href="/loading?parent_purpose=%3A+This+is+a+website+that+allows+you+to+measure+the+imputedly+unsieged+objects&amp;parent_uuid=fa2ce08d&amp;button_context=%0D%0AClicked+button%3A+Measuring+Tape" src="static/images/61fafbea.png"/>
+<script>
+		function measure() {
+			// Get the input value
+			let object = document.getElementById("object").value;
+			// Generate a random measurement between 1 and 100
+			let measurement = Math.floor(Math.random() * 100) + 1;
+			// Display the result
+			let result = `${object} measures ${measurement} units`;
+			document.querySelector(".result").textContent = result;
+		}
+	</script>
+</body>
+</html>
