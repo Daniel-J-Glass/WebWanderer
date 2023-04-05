@@ -165,12 +165,14 @@ class ProceduralSite:
         yield "AI-ifying the buttons..."
         for tag in soup.find_all(['a', 'button', 'input','img']):
             #add seperator for parent N's purpose and trim based on context variable
-            if tag.has_attr('alt'):
-                text = str(tag.get('alt'))
-            elif tag.has_attr('title'):
+            if tag.has_attr('title'):
                 text = str(tag.get('title'))
+            elif tag.has_attr('alt'):
+                text = str(tag.get('alt'))
+                tag['title'] = text
             else:
                 text = tag.text.strip()
+                tag['title'] = text
             # Modify text to be the context length surroundings in the html
             # Get the tag's parent and following siblings
             parent = tag.find_parent()
