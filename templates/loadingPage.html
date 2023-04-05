@@ -142,9 +142,10 @@
 
     eventSource.onmessage = function(event) {
         if (event.data.endsWith('.html')) {
-            removeCurrentPageFromHistory();
-            window.location.href = '/new_site?html=' + event.data;
-        }
+            new_url = '/new_site?html=' + event.data;
+            window.location.href = new_url
+            window.location.replace(new_url);
+          }
         updateLogDisplay(event.data);
         lastLogReceived = new Date();
     };
@@ -178,9 +179,9 @@
       // Replace the current history entry with the previous page
     function removeCurrentPageFromHistory() {
       var currentUrl = window.location.href;
-      window.history.replaceState(null, null, document.referrer);
       window.location.replace(currentUrl);
     }
+
     
     // Set up an interval to check for simulated logs
     setInterval(checkTimeForSimulatedLog, 1000);
