@@ -130,6 +130,7 @@ class ProceduralSite:
         print(f"Input tokens: {token_count}")
         yield f"Generating HTML with {self.model_name}..."
         yield f"Expected wait time: 30 seconds..."
+        html_text=None
         for i in range(self.num_retries):    
             try:
                 yield f"Attempt {i+1} of {self.num_retries}..."
