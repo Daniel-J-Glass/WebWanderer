@@ -1,3 +1,0 @@
-OPENAI_KEY = ""
-SD_KEY = ""
-STABILITY_HOST = 'grpc.stability.ai:443'

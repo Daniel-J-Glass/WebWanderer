@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      margin: 0;
+      overflow: hidden;
+    }
+  
+    #log-container {
+      width: 50%;
+      height: 75%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+      flex-direction: column;
+      text-align: left;
+      position: center;
+      overflow: hidden;
+      padding: 20px; /* add padding to the container */
+      transform: translate(15%,-25%); /* move the container up by 50% of its own height */
+    }
+  
+    #log-container p {
+      font-family: monospace;
+      font-size: 24px;
+      color: #FFF;
+      margin: 0;
+      padding: 0;
+      white-space: normal;
+    }
+  
+    /* #fade-overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, .1), transparent 75%);
+      pointer-events: none;
+    } */
+    #blur-overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      backdrop-filter: blur(0px);
+      background-image: linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 1) 40%);
+      pointer-events: none;
+    }
+
+    #github-logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      width: 50px;
+      height: 50px;
+    }
+  </style>  
+</head>
+<body>
+  <img
+    id="github-logo"
+    src="{{ url_for('static', filename='images/GitHub.png') }}"
+    onclick="window.open('https\:\/\/github.com/Daniel-J-Glass', '_blank')"
+    style="position: absolute; top: 20px; right: 20px;"
+  />
+  <div id="log-container">
+    <div id="fade-overlay"></div>
+    <div id="blur-overlay"></div>
+  </div>
+  <script>
+    var lastLogReceived = new Date();
+    var simulatedLogs = [];
+    var waitTime = randomWaitTime();
+
+    function randomWaitTime() {
+      return Math.floor(Math.random() * 10000);
+    }
+
+    function generateSimulatedLog() {
+      var randomEvent = [
+        "While we're waiting, why not check out my GitHub in the top right?",
+        "No... This screen isn't procedural. Just showing that we're doing something...",
+        "This isn't my fault, I'm just a loading page.",
+        "Good thing we have a loading page, or else you'd be staring at a blank screen.",
+        "I'm glad you're paying attention, but you can tab away while you wait.",
+        "Development is in progress, so stay tuned!",
+        "Herding the LLaMas...",
+        "Developing sentience...",
+        "Hang on, our hamsters are working hard!",
+        "Optimizing the flux capacitor...",
+        "Just a moment, preparing awesomeness.",
+        "Teleporting you to the content soon.",
+        "Synchronizing the data tides...",
+        "Searching for the meaning of life...",
+        "Be patient, the magic is happening.",
+        "Baking fresh content in the oven.",
+        "Loading, fueled by coffee and code.",
+        "Retrieving data from the cloud...",
+        "Assembling the puzzle pieces now.",
+        "Chasing 1s and 0s, almost there!",
+        "Polishing pixels for your arrival.",
+        "Quick! Grab a snack while waiting.",
+        "Whispering to the server spirits...",
+        "Running a marathon, be right back!",
+        "Loading... or am I? Suspense!",
+        "Summoning content from the depths.",
+        "Unraveling the mysteries of code...",
+        "Just a few more moments, promise!"
+      ];
+
+      var logText = randomEvent[Math.floor(Math.random() * randomEvent.length)]
+
+      updateLogDisplay(logText);
+      waitTime = randomWaitTime();
+    }
+
+    // Check if it's time to generate a simulated log
+    function checkTimeForSimulatedLog() {
+      var currentTime = new Date();
+      var timeElapsed = currentTime - lastLogReceived;
+
+      if (timeElapsed >= waitTime) {
+        generateSimulatedLog();
+        lastLogReceived = currentTime;
+      }
+    }
+
+    // get the purpose value from the previous page
+    var purpose = "{{ purpose }}"; // replace with the actual value
+
+    // set up the EventSource to listen to the /generating route
+    var eventSource = new EventSource("/generating?purpose=" + encodeURIComponent(purpose));
+
+    eventSource.onmessage = function(event) {
+        if (event.data.endsWith('.html')) {
+            removeCurrentPageFromHistory();
+            window.location.href = '/new_site?html=' + event.data;
+        }
+        updateLogDisplay(event.data);
+        lastLogReceived = new Date();
+    };
+
+    eventSource.onerror = function(event) {
+        console.error(event);
+    };
+
+    var displayedLogs = [];
+
+    function updateLogDisplay(log) {
+      // Check if the new log is already in displayedLogs
+      // if (displayedLogs.includes(log)) {
+      //   return;
+      // }
+
+      // Update displayedLogs
+      displayedLogs.push(log);
+
+      // Generate HTML for the new log
+      var logHtml = '<p>' + log + '</p>';
+
+      // Update log container by appending the new log
+      $('#log-container').append(logHtml);
+      lastLogReceived = new Date();
+
+      // Scroll to the bottom of the log container
+      var logContainer = document.getElementById('log-container');
+      logContainer.scrollTop = logContainer.scrollHeight - logContainer.clientHeight;
+    }
+      // Replace the current history entry with the previous page
+    function removeCurrentPageFromHistory() {
+      var currentUrl = window.location.href;
+      window.history.replaceState(null, null, document.referrer);
+      window.location.replace(currentUrl);
+    }
+    
+    // Set up an interval to check for simulated logs
+    setInterval(checkTimeForSimulatedLog, 1000);
+  </script>
+</body>
+</html>
