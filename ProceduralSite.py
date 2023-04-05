@@ -79,7 +79,7 @@ class ProceduralSite:
         #post self to firebase, get uuid return
         #self.uuid = 
         self.uuid = str(uuid.uuid4())[:8] 
-        self.html_filename = os.abs(os.path.join(self.html_path,f"{self.uuid}.html"))
+        self.html_filename = os.path.abspath(os.path.join(self.html_path,f"{self.uuid}.html"))
 
 
     def generate_site(self):
