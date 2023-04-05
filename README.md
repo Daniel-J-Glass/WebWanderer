@@ -30,11 +30,13 @@ The website has two views:
 
 ## Screenshots
 
+![Loading Screen](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/LoadingScreen.png)
+
 You can see some examples of the procedurally-generated website below:
 
 ![Example 1](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/StartScreen.png)
 
-![Example 2](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/example1.png)
+![Example 3](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/example1.png)
 
 ![Example 3](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/example2.png)
 
