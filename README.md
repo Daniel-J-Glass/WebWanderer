@@ -40,6 +40,10 @@ You can see some examples of the procedurally-generated website below:
 
 ![Example 3](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/example2.png)
 
+## Architecture Sketch
+
+![Basic Architecture](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/BasicArchitecture.png)
+
 ## License
 
 This project is licensed under the CC BY-NC-ND 4.0 license. See the `LICENSE-CC-BY-NC-ND-4.0.md` file for more information.
