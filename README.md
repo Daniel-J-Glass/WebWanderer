@@ -28,17 +28,9 @@ The website has two views:
 - `/start`: This is the starting screen of the website. It displays a button to start traversing websites.
 - `/next_page`: This view generates a new page based on the information from the previous page. It uses ChatGPT and Stable Diffusion to generate the content and layout of the page.
 
-## Screenshots
+## Demo
 
-![Loading Screen](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/LoadingScreen.png)
-
-You can see some examples of the procedurally-generated website below:
-
-![Example 1](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/StartScreen.png)
-
-![Example 3](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/example1.png)
-
-![Example 3](https://github.com/Daniel-J-Glass/WebWanderer/blob/main/examples/example2.png)
+https://github.com/Daniel-J-Glass/WebWanderer/assets/38441127/16e4c548-cf65-440a-b429-31a0a95c7250
 
 ## Architecture Sketch
 
