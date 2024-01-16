@@ -1,7 +1,7 @@
 # WebWanderer
 
 This is a Flask application that generates a procedurally-generated website. It uses an AI to generate the content and layout of each page. The website is built using HTML and images that are generated on the fly with ChatGPT and Stable Diffusion.<br>
-You can check out the GCP deployed app here (load times are long due to OpenAI API): https://webwanderer.app/
+You can check out the GCP deployed app here (load times are long due to OpenAI API): https://www.webwanderer.app/
 
 ## Installation
 
